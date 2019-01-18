@@ -1,0 +1,52 @@
+version: '3'
+services:
+  queue:
+    image: "mophos/queue"
+    container_name: "queue"
+    ports:
+      - 88:80
+    volumes:
+      - ./queue-config:/home/queue/queue-api/config
+    restart: always
+    networks:
+      queue-network:
+        ipv4_address: 192.168.88.11
+  mqtt:
+    image: "mophos/queue-mqtt"
+    container_name: "queue-mqtt"
+    ports: 
+      - 8080:8080
+    volumes:
+      - ./mqtt-config:/home/queue-mqtt/config
+    restart: always
+    networks:
+      queue-network:
+        ipv4_address: 192.168.88.12
+  mysql:
+    image: "mysql/mysql-server"
+    container_name: "queue-mysql"
+    ports:
+      - 3308:3306
+    environment:
+      MYSQL_DATABASE: "root"
+      MYSQL_ROOT_PASSWORD: "##q4u##"
+      MYSQL_ROOT_HOST: "%"
+    volumes:
+      - ./mysql:/docker-entrypoint-initdb.d/
+    command:
+      --bind-address=0.0.0.0
+      --lower_case_table_names=0
+      --sql-mode="STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
+      --skip-name-resolve
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8
+      --collation-server=utf8_general_ci
+    networks:
+      queue-network:
+        ipv4_address: 192.168.88.10
+networks:
+  queue-network:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 192.168.88.0/24
