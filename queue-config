@@ -32,8 +32,7 @@ QUEUE_DIGIT=4
 USE_PRIORITY_PREFIX=N
 
 # for docker container
-# ใช้ IP ของ container ในไฟล์​ docker-compose.yml
-INTERNAL_NOTIFY_SERVER=192.168.88.11
+INTERNAL_NOTIFY_SERVER=127.0.0.1
 
 # for web client
 # ใช้ IP ของเครื่องที่รัน docker
