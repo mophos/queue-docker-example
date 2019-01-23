@@ -1,27 +1,19 @@
 version: '3'
 services:
   queue:
-    image: "mophos/queue"
+    image: "mophos/queue:dev"
     container_name: "queue"
     ports:
       - 88:80
+      - 8888:8888
     volumes:
       - ./queue-config:/home/queue/queue-api/config
+      - ./mqtt-config:/home/queue/queue-mqtt/config
     restart: always
     networks:
       queue-network:
         ipv4_address: 192.168.88.11
-  mqtt:
-    image: "mophos/queue-mqtt"
-    container_name: "queue-mqtt"
-    ports: 
-      - 8080:8080
-    volumes:
-      - ./mqtt-config:/home/queue-mqtt/config
-    restart: always
-    networks:
-      queue-network:
-        ipv4_address: 192.168.88.12
+  
   mysql:
     image: "mysql/mysql-server"
     container_name: "queue-mysql"

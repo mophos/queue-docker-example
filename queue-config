@@ -32,13 +32,16 @@ QUEUE_DIGIT=4
 USE_PRIORITY_PREFIX=N
 
 # for docker container
-INTERNAL_NOTIFY_SERVER=192.168.88.12
+# ใช้ IP ของ container ในไฟล์​ docker-compose.yml
+INTERNAL_NOTIFY_SERVER=192.168.88.11
+
 # for web client
+# ใช้ IP ของเครื่องที่รัน docker
 LOCAL_NOTIFY_SERVER=192.168.4.207
 
 LOCAL_NOTIFY_USER=q4u
 LOCAL_NOTIFY_PASSWORD=##q4u##
-LOCAL_NOTIFY_HTTP_PORT=8080
+LOCAL_NOTIFY_HTTP_PORT=8888
 
 QUEUE_CENTER_TOPIC=queue/center
 SERVICE_POINT_TOPIC=queue/service-point
