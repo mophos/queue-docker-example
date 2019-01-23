@@ -32,7 +32,7 @@ services:
       MYSQL_ROOT_PASSWORD: "##q4u##"
       MYSQL_ROOT_HOST: "%"
     volumes:
-      - ./mysql:/docker-entrypoint-initdb.d/
+      - ./mysql:/var/lib/mysql
     command:
       --bind-address=0.0.0.0
       --lower_case_table_names=0
