@@ -36,7 +36,7 @@ USE_PRIORITY_PREFIX=N
 INTERNAL_NOTIFY_SERVER=127.0.0.1
 
 # for web client
-# ใช้ IP ของเครื่องที่รัน docker
+# ใช้ IP ของเครื่องที่รัน docker/หรือเครื่อง server ที่รันคิว
 LOCAL_NOTIFY_SERVER=192.168.4.207
 
 LOCAL_NOTIFY_USER=q4u
