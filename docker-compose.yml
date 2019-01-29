@@ -5,23 +5,15 @@ services:
     container_name: "queue"
     ports:
       - 88:80
+      - 8888:8888
     volumes:
       - ./queue-config:/home/queue/queue-api/config
+      - ./mqtt-config:/home/queue/queue-mqtt/config
     restart: always
     networks:
       queue-network:
         ipv4_address: 192.168.88.11
-  mqtt:
-    image: "mophos/queue-mqtt"
-    container_name: "queue-mqtt"
-    ports: 
-      - 8080:8080
-    volumes:
-      - ./mqtt-config:/home/queue-mqtt/config
-    restart: always
-    networks:
-      queue-network:
-        ipv4_address: 192.168.88.12
+  
   mysql:
     image: "mysql/mysql-server"
     container_name: "queue-mysql"
@@ -35,7 +27,7 @@ services:
       - ./mysql:/var/lib/mysql
     command:
       --bind-address=0.0.0.0
-      --lower_case_table_names=0
+      --lower_case_table_names=2
       --sql-mode="STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
       --skip-name-resolve
       --default-authentication-plugin=mysql_native_password
