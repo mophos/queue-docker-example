@@ -1,7 +1,7 @@
 version: '3'
 services:
   queue:
-    image: "mophos/queue:dev"
+    image: "mophos/queue"
     container_name: "queue"
     ports:
       - 88:80
