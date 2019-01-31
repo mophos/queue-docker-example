@@ -32,7 +32,7 @@ HIS_TYPE=hosxp
 QUEUE_DIGIT=4
 USE_PRIORITY_PREFIX=N
 
-# for docker container
+# สำหรับ API คุยกับ MQTT
 INTERNAL_NOTIFY_SERVER=127.0.0.1
 
 # for web client
