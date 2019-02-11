@@ -4,7 +4,7 @@ services:
     image: "mophos/queue"
     container_name: "queue"
     ports:
-      - 88:80
+      - 80:80
       - 8888:8888
     volumes:
       - ./queue-config:/home/queue/queue-api/config
