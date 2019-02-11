@@ -1,14 +1,14 @@
-DB_HOST=192.168.4.207
-DB_PORT=3307
+DB_HOST=192.168.88.10
+DB_PORT=3306
 DB_NAME=queue
 DB_USER=root
-DB_PASSWORD=##devmate##
+DB_PASSWORD=##q4u##
 
-DBHIS_HOST=192.168.4.207
-DBHIS_PORT=3307
-DBHIS_NAME=hos
+DBHIS_HOST=192.168.88.10
+DBHIS_PORT=3306
+DBHIS_NAME=universal
 DBHIS_USER=root
-DBHIS_PASSWORD=##devmate##
+DBHIS_PASSWORD=##q4u##
 
 SECRET_KEY=##q4u####q4u####q4u####q4u####q4u##
 
@@ -17,7 +17,7 @@ MAX_CONNECTION_PER_MINUTE=50000
 ################### Queue Service for H4U #####################
 # Enable Q4U
 # N = disabled, Y = enable
-ENABLE_Q4U=Y
+ENABLE_Q4U=N
 ZERO_PADDING=Y
 
 Q4U_NOTIFY_TOPIC=xxxx
@@ -27,7 +27,7 @@ Q4U_NOTIFY_URL=http://mqtt.h4u.moph.go.th/v1/queue/update
 ###############################################################
 
 # HIS_TYPE เช่น hi, hosxp, universal, ezhosp
-HIS_TYPE=hosxp
+HIS_TYPE=universal
 
 # mysql, pg, mssql
 DBHIS_TYPE=mysql
