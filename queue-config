@@ -17,7 +17,7 @@ MAX_CONNECTION_PER_MINUTE=50000
 ################### Queue Service for H4U #####################
 # Enable Q4U
 # N = disabled, Y = enable
-ENABLE_Q4U=Y
+ENABLE_Q4U=N
 ZERO_PADDING=Y
 
 Q4U_NOTIFY_TOPIC=xxx
@@ -29,10 +29,12 @@ Q4U_NOTIFY_URL=http://mqtt.h4u.moph.go.th/v1/queue/update
 # HIS_TYPE: hi, hosxp, universal, ezhosp
 HIS_TYPE=universal
 
+# mysql, pg, mssql
+DBHIS_TYPE=mysql
+
 QUEUE_DIGIT=4
 USE_PRIORITY_PREFIX=N
 
-# for docker container
 INTERNAL_NOTIFY_SERVER=127.0.0.1
 
 LOCAL_NOTIFY_SERVER=127.0.0.1
@@ -44,3 +46,4 @@ LOCAL_NOTIFY_HTTP_PORT=8888
 QUEUE_CENTER_TOPIC=queue/center
 SERVICE_POINT_TOPIC=queue/service-point
 DEPARTMENT_TOPIC=queue/department
+GROUP_TOPIC=queue/group

@@ -4,7 +4,7 @@ services:
     image: "mophos/queue"
     container_name: "queue"
     ports:
-      - 88:80
+      - 80:80
       - 8888:8888
     volumes:
       - ./queue-config:/home/queue/queue-api/config
@@ -18,7 +18,7 @@ services:
     image: "mysql/mysql-server"
     container_name: "queue-mysql"
     ports:
-      - 3308:3306
+      - 3306:3306
     environment:
       MYSQL_DATABASE: "root"
       MYSQL_ROOT_PASSWORD: "##q4u##"
@@ -32,6 +32,8 @@ services:
       --default-authentication-plugin=mysql_native_password
       --character-set-server=utf8
       --collation-server=utf8_general_ci
+
+    restart: always
     networks:
       queue-network:
         ipv4_address: 192.168.88.10
