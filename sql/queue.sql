@@ -11,7 +11,7 @@
  Target Server Version : 80013
  File Encoding         : 65001
 
- Date: 29/01/2019 11:17:55
+ Date: 20/02/2019 19:42:55
 */
 
 SET NAMES utf8mb4;
@@ -99,14 +99,14 @@ CREATE TABLE `q4u_provider_types` (
 DROP TABLE IF EXISTS `q4u_queue`;
 CREATE TABLE `q4u_queue` (
   `queue_id` int(12) NOT NULL AUTO_INCREMENT,
-  `hn` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `hn` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `vn` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `service_point_id` int(3) NOT NULL,
   `priority_id` int(3) DEFAULT NULL,
   `room_id` int(2) DEFAULT NULL COMMENT 'ช่องบริการ',
   `date_serv` date NOT NULL COMMENT 'วันที่รับบริการ',
   `time_serv` time DEFAULT NULL,
-  `queue_number` varchar(10) DEFAULT NULL COMMENT 'หมายเลขQ',
+  `queue_number` varchar(10) NOT NULL COMMENT 'หมายเลขQ',
   `queue_running` int(6) DEFAULT '0',
   `his_queue` varchar(6) DEFAULT NULL COMMENT 'หมายเลขQ(Hosxp)',
   `queue_status_id` int(1) DEFAULT NULL COMMENT 'สถานะQ',
@@ -118,7 +118,8 @@ CREATE TABLE `q4u_queue` (
   `is_interview` char(1) DEFAULT 'N',
   `is_completed` char(1) DEFAULT 'N',
   `queue_interview` int(11) DEFAULT NULL COMMENT 'ลำดับคิวในการซักประวัติ',
-  PRIMARY KEY (`vn`,`service_point_id`) USING BTREE,
+  `is_cancel` enum('Y','N') DEFAULT 'N',
+  PRIMARY KEY (`vn`,`service_point_id`,`queue_number`,`hn`) USING BTREE,
   UNIQUE KEY `q4u_queue_un` (`queue_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
@@ -193,34 +194,6 @@ INSERT INTO `q4u_service_point_prefix` VALUES (4, 'D', 1);
 COMMIT;
 
 -- ----------------------------
--- Table structure for q4u_service_point_status
--- ----------------------------
-DROP TABLE IF EXISTS `q4u_service_point_status`;
-CREATE TABLE `q4u_service_point_status` (
-  `service_point_status_id` int(11) NOT NULL AUTO_INCREMENT,
-  `service_point_status_name` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  PRIMARY KEY (`service_point_status_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-
--- ----------------------------
--- Records of q4u_service_point_status
--- ----------------------------
-BEGIN;
-INSERT INTO `q4u_service_point_status` VALUES (1, 'active');
-INSERT INTO `q4u_service_point_status` VALUES (2, 'pending');
-COMMIT;
-
--- ----------------------------
--- Table structure for q4u_service_point_type
--- ----------------------------
-DROP TABLE IF EXISTS `q4u_service_point_type`;
-CREATE TABLE `q4u_service_point_type` (
-  `service_point_type_id` int(3) NOT NULL,
-  `service_point_type_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  PRIMARY KEY (`service_point_type_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-
--- ----------------------------
 -- Table structure for q4u_service_points
 -- ----------------------------
 DROP TABLE IF EXISTS `q4u_service_points`;
@@ -235,23 +208,25 @@ CREATE TABLE `q4u_service_points` (
   `prefix` char(1) DEFAULT NULL,
   `department_id` int(3) DEFAULT NULL COMMENT 'แผนก',
   `kios` char(1) DEFAULT 'N',
+  `use_old_queue` enum('Y','N') DEFAULT 'N',
   PRIMARY KEY (`service_point_id`),
   UNIQUE KEY `service_point_un_point_name` (`service_point_name`),
   UNIQUE KEY `idx_topic` (`topic`),
   UNIQUE KEY `idx_prefix` (`prefix`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of q4u_service_points
 -- ----------------------------
 BEGIN;
-INSERT INTO `q4u_service_points` VALUES (1, 'แผนกทันตกรรม', 'DENT', '40100', NULL, NULL, '8525716030', '1', 3, 'Y');
-INSERT INTO `q4u_service_points` VALUES (2, 'เวชปฏิบัติทั่วไป', 'HHC', '10100', NULL, NULL, '1966378946', '2', 7, 'Y');
-INSERT INTO `q4u_service_points` VALUES (3, 'กายภาพบำบัด', 'TMM', '041', NULL, NULL, '7442225581', '3', 4, 'Y');
-INSERT INTO `q4u_service_points` VALUES (4, 'แพทย์แผนไทย', 'TMT', 'E0100', NULL, NULL, '6945080335', '4', NULL, 'N');
-INSERT INTO `q4u_service_points` VALUES (6, 'ตรวจโรคทั่วไป', 'OPD', '014', NULL, NULL, '3673212018', 'C', 8, 'Y');
-INSERT INTO `q4u_service_points` VALUES (7, 'ทันตกรรม', 'DENT', '005', NULL, NULL, '6518534020', '6', 3, 'Y');
-INSERT INTO `q4u_service_points` VALUES (8, 'HIMPRO-ตรวจโรค', NULL, 'SCR1', NULL, NULL, '8870167313', 'A', 8, 'N');
+INSERT INTO `q4u_service_points` VALUES (1, 'แผนกทันตกรรม', 'DENT', '40100', NULL, NULL, '8525716030', '1', 3, 'Y', 'N');
+INSERT INTO `q4u_service_points` VALUES (2, 'เวชปฏิบัติทั่วไป', 'HHC', '10100', NULL, NULL, '1966378946', '2', 7, 'Y', 'N');
+INSERT INTO `q4u_service_points` VALUES (3, 'กายภาพบำบัด', 'TMM', '041', NULL, NULL, '7442225581', '3', 4, 'Y', 'Y');
+INSERT INTO `q4u_service_points` VALUES (4, 'แพทย์แผนไทย', 'TMT', 'E0100', NULL, NULL, '6945080335', '4', NULL, 'N', 'N');
+INSERT INTO `q4u_service_points` VALUES (6, 'ตรวจโรคทั่วไป', 'OPD', '014', NULL, NULL, '3673212018', 'C', 8, 'Y', 'N');
+INSERT INTO `q4u_service_points` VALUES (7, 'ทันตกรรม', 'DENT', '005', NULL, NULL, '2224971530', '6', 3, 'Y', 'Y');
+INSERT INTO `q4u_service_points` VALUES (8, 'HIMPRO-ตรวจโรค', NULL, 'SCR1', NULL, NULL, '8870167313', 'A', 8, 'N', 'N');
+INSERT INTO `q4u_service_points` VALUES (9, 'ห้อง LAB', NULL, '007', NULL, NULL, '6097994418', 'L', 8, 'Y', 'Y');
 COMMIT;
 
 -- ----------------------------
@@ -265,7 +240,7 @@ CREATE TABLE `q4u_service_rooms` (
   `room_id` int(6) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`service_point_id`,`room_number`),
   UNIQUE KEY `service_rooms_un` (`room_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of q4u_service_rooms
@@ -287,6 +262,7 @@ INSERT INTO `q4u_service_rooms` VALUES (6, 2, 'ห้องตรวจโรค
 INSERT INTO `q4u_service_rooms` VALUES (6, 3, 'ห้องตรวจ 3', 19);
 INSERT INTO `q4u_service_rooms` VALUES (7, 1, 'ทันตกรรมทั่วไป', 20);
 INSERT INTO `q4u_service_rooms` VALUES (7, 2, 'ทันกรรมนอกเวลา', 21);
+INSERT INTO `q4u_service_rooms` VALUES (8, 2, 'xxx', 22);
 COMMIT;
 
 -- ----------------------------
@@ -319,13 +295,6 @@ CREATE TABLE `q4u_tokens` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of q4u_tokens
--- ----------------------------
-BEGIN;
-INSERT INTO `q4u_tokens` VALUES ('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZSI6Img0dSIsImRlc2NyaXB0aW9uIjoiZm9yIGFjY2VzcyBRNFUgYXBpIiwiaWF0IjoxNTQ4MTUyNzQ4LCJleHAiOjE1Nzk3MTAzNDh9.7AKXZY5_ego8iSg59vrtOlCFxvWec4o800nKmgNLaT4', '2019-01-22 17:25:48', '2020-01-22 17:25:48');
-COMMIT;
-
--- ----------------------------
 -- Table structure for q4u_user_roles
 -- ----------------------------
 DROP TABLE IF EXISTS `q4u_user_roles`;
@@ -346,21 +315,24 @@ CREATE TABLE `q4u_user_service_points` (
   `service_point_id` int(3) NOT NULL,
   PRIMARY KEY (`user_id`,`service_point_id`),
   UNIQUE KEY `use_service_point_id` (`user_service_point_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of q4u_user_service_points
 -- ----------------------------
 BEGIN;
-INSERT INTO `q4u_user_service_points` VALUES (10, 2, 2);
-INSERT INTO `q4u_user_service_points` VALUES (11, 2, 1);
-INSERT INTO `q4u_user_service_points` VALUES (15, 1, 8);
-INSERT INTO `q4u_user_service_points` VALUES (16, 1, 3);
-INSERT INTO `q4u_user_service_points` VALUES (17, 1, 6);
-INSERT INTO `q4u_user_service_points` VALUES (18, 1, 7);
-INSERT INTO `q4u_user_service_points` VALUES (19, 1, 2);
-INSERT INTO `q4u_user_service_points` VALUES (20, 1, 4);
-INSERT INTO `q4u_user_service_points` VALUES (21, 1, 1);
+INSERT INTO `q4u_user_service_points` VALUES (22, 2, 2);
+INSERT INTO `q4u_user_service_points` VALUES (23, 2, 1);
+INSERT INTO `q4u_user_service_points` VALUES (24, 2, 9);
+INSERT INTO `q4u_user_service_points` VALUES (25, 2, 6);
+INSERT INTO `q4u_user_service_points` VALUES (26, 1, 8);
+INSERT INTO `q4u_user_service_points` VALUES (27, 1, 3);
+INSERT INTO `q4u_user_service_points` VALUES (28, 1, 6);
+INSERT INTO `q4u_user_service_points` VALUES (29, 1, 7);
+INSERT INTO `q4u_user_service_points` VALUES (30, 1, 2);
+INSERT INTO `q4u_user_service_points` VALUES (31, 1, 1);
+INSERT INTO `q4u_user_service_points` VALUES (32, 1, 4);
+INSERT INTO `q4u_user_service_points` VALUES (33, 1, 9);
 COMMIT;
 
 -- ----------------------------

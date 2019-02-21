@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   queue:
     image: "mophos/queue"
@@ -13,7 +13,7 @@ services:
     networks:
       queue-network:
         ipv4_address: 192.168.88.11
-  
+
   mysql:
     image: "mysql/mysql-server"
     container_name: "queue-mysql"
@@ -25,8 +25,7 @@ services:
       MYSQL_ROOT_HOST: "%"
     volumes:
       - ./mysql:/var/lib/mysql
-    command:
-      --bind-address=0.0.0.0
+    command: --bind-address=0.0.0.0
       --lower_case_table_names=2
       --sql-mode="STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
       --skip-name-resolve
@@ -40,5 +39,5 @@ networks:
   queue-network:
     driver: bridge
     ipam:
-     config:
-       - subnet: 192.168.88.0/24
+      config:
+        - subnet: 192.168.88.0/24

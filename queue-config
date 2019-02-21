@@ -1,14 +1,14 @@
-DB_HOST=192.168.4.207
-DB_PORT=3307
+DB_HOST=192.168.88.10
+DB_PORT=3306
 DB_NAME=queue
 DB_USER=root
-DB_PASSWORD=##devmate##
+DB_PASSWORD=##q4u##
 
-DBHIS_HOST=192.168.4.207
-DBHIS_PORT=3307
-DBHIS_NAME=hos
+DBHIS_HOST=192.168.88.10
+DBHIS_PORT=3306
+DBHIS_NAME=universal
 DBHIS_USER=root
-DBHIS_PASSWORD=##devmate##
+DBHIS_PASSWORD=##q4u##
 
 SECRET_KEY=##q4u####q4u####q4u####q4u####q4u##
 
@@ -20,14 +20,14 @@ MAX_CONNECTION_PER_MINUTE=50000
 ENABLE_Q4U=Y
 ZERO_PADDING=Y
 
-Q4U_NOTIFY_TOPIC=xxxx
-Q4U_NOTIFY_TOKEN=xxxx
+Q4U_NOTIFY_TOPIC=xxx
+Q4U_NOTIFY_TOKEN=xxx
 Q4U_NOTIFY_URL=http://mqtt.h4u.moph.go.th/v1/queue/update
 
 ###############################################################
 
-# HIS_TYPE เช่น hi, hosxp, universal, ezhosp
-HIS_TYPE=hosxp
+# HIS_TYPE: hi, hosxp, universal, ezhosp
+HIS_TYPE=universal
 
 QUEUE_DIGIT=4
 USE_PRIORITY_PREFIX=N
@@ -35,9 +35,7 @@ USE_PRIORITY_PREFIX=N
 # for docker container
 INTERNAL_NOTIFY_SERVER=127.0.0.1
 
-# for web client
-# ใช้ IP ของเครื่องที่รัน docker/หรือเครื่อง server ที่รันคิว
-LOCAL_NOTIFY_SERVER=192.168.4.207
+LOCAL_NOTIFY_SERVER=127.0.0.1
 
 LOCAL_NOTIFY_USER=q4u
 LOCAL_NOTIFY_PASSWORD=##q4u##
@@ -45,4 +43,4 @@ LOCAL_NOTIFY_HTTP_PORT=8888
 
 QUEUE_CENTER_TOPIC=queue/center
 SERVICE_POINT_TOPIC=queue/service-point
-
+DEPARTMENT_TOPIC=queue/department
