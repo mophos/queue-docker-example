@@ -11,7 +11,7 @@
  Target Server Version : 80013
  File Encoding         : 65001
 
- Date: 20/02/2019 19:42:55
+ Date: 21/02/2019 16:50:54
 */
 
 SET NAMES utf8mb4;
@@ -288,10 +288,9 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `q4u_tokens`;
 CREATE TABLE `q4u_tokens` (
-  `token` varchar(200) DEFAULT NULL,
+  `token` text CHARACTER SET utf8 COLLATE utf8_general_ci,
   `created_date` datetime DEFAULT NULL,
-  `expired_date` datetime DEFAULT NULL,
-  UNIQUE KEY `token` (`token`)
+  `expired_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
