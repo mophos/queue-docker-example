@@ -11,7 +11,7 @@
  Target Server Version : 80013
  File Encoding         : 65001
 
- Date: 21/02/2019 16:50:54
+ Date: 22/02/2019 11:32:54
 */
 
 SET NAMES utf8mb4;
@@ -119,7 +119,7 @@ CREATE TABLE `q4u_queue` (
   `is_completed` char(1) DEFAULT 'N',
   `queue_interview` int(11) DEFAULT NULL COMMENT 'ลำดับคิวในการซักประวัติ',
   `is_cancel` enum('Y','N') DEFAULT 'N',
-  PRIMARY KEY (`vn`,`service_point_id`,`queue_number`,`hn`) USING BTREE,
+  PRIMARY KEY (`queue_id`) USING BTREE,
   UNIQUE KEY `q4u_queue_un` (`queue_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
