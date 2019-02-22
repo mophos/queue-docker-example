@@ -29,7 +29,7 @@ Q4U_NOTIFY_URL=http://mqtt.h4u.moph.go.th/v1/queue/update
 # HIS_TYPE: hi, hosxp, universal, ezhosp
 HIS_TYPE=universal
 
-# mysql, pg, mssql
+# mysql, pg, mssql, oracledb
 DBHIS_TYPE=mysql
 
 QUEUE_DIGIT=4
