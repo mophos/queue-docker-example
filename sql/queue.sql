@@ -359,4 +359,19 @@ INSERT INTO `q4u_users` VALUES (1, 'สถิตย์ เรียนพิศ'
 INSERT INTO `q4u_users` VALUES (2, 'พิชญาภา เรียนพิศ', 'nurse', 'e10adc3949ba59abbe56e057f20f883e', 'Y', 'MEMBER');
 COMMIT;
 
+-- ----------------------------
+-- Table structure for q4u_queue_group_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `q4u_queue_group_detail`;
+CREATE TABLE `q4u_queue_group_detail`  (
+  `service_point_id` int(3) NOT NULL,
+  `date_serv` date NOT NULL,
+  `last_queue` int(11) NULL DEFAULT NULL,
+  `room_id` int(3) NOT NULL,
+  `queue_id` int(11) NULL DEFAULT NULL,
+  `update_date` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
+  `queue_running` int(6) NOT NULL,
+  PRIMARY KEY (`service_point_id`, `date_serv`, `room_id`, `queue_running`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
 SET FOREIGN_KEY_CHECKS = 1;
