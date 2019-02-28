@@ -209,6 +209,7 @@ CREATE TABLE `q4u_service_points` (
   `department_id` int(3) DEFAULT NULL COMMENT 'แผนก',
   `kios` char(1) DEFAULT 'N',
   `use_old_queue` enum('Y','N') DEFAULT 'N',
+  `group_compare` enum('Y','N') DEFAULT 'N' COMMENT 'เชื่อมคิวกลุ่มกับตารางคิว Y=แก้ไขตารางคิว N=ไม่แก้ไขตารางคิว',
   PRIMARY KEY (`service_point_id`),
   UNIQUE KEY `service_point_un_point_name` (`service_point_name`),
   UNIQUE KEY `idx_topic` (`topic`),
