@@ -3,15 +3,15 @@
 
  Source Server         : localhost_3307
  Source Server Type    : MySQL
- Source Server Version : 80013
+ Source Server Version : 100313
  Source Host           : localhost:3307
  Source Schema         : queue
 
  Target Server Type    : MySQL
- Target Server Version : 80013
+ Target Server Version : 100313
  File Encoding         : 65001
 
- Date: 22/02/2019 11:32:54
+ Date: 12/03/2019 10:11:03
 */
 
 SET NAMES utf8mb4;
@@ -46,13 +46,13 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `q4u_person`;
 CREATE TABLE `q4u_person` (
-  `hn` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `title` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `first_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `last_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `hn` varchar(15) NOT NULL,
+  `title` varchar(50) DEFAULT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
   `birthdate` date DEFAULT NULL,
-  `remark` text CHARACTER SET utf8 COLLATE utf8_general_ci,
-  `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `remark` text DEFAULT NULL,
+  `update_date` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `sex` char(1) DEFAULT NULL,
   PRIMARY KEY (`hn`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
@@ -63,8 +63,8 @@ CREATE TABLE `q4u_person` (
 DROP TABLE IF EXISTS `q4u_priorities`;
 CREATE TABLE `q4u_priorities` (
   `priority_id` int(3) NOT NULL AUTO_INCREMENT,
-  `priority_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `priority_prefix` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `priority_name` varchar(50) DEFAULT NULL,
+  `priority_prefix` char(1) DEFAULT NULL,
   `prority_color` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`priority_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
@@ -89,7 +89,7 @@ COMMIT;
 DROP TABLE IF EXISTS `q4u_provider_types`;
 CREATE TABLE `q4u_provider_types` (
   `provider_type_id` int(11) NOT NULL AUTO_INCREMENT,
-  `provider_type_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT 'รหัสประเภทผู้ให้บริการ',
+  `provider_type_name` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'รหัสประเภทผู้ให้บริการ',
   PRIMARY KEY (`provider_type_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
 
@@ -99,21 +99,21 @@ CREATE TABLE `q4u_provider_types` (
 DROP TABLE IF EXISTS `q4u_queue`;
 CREATE TABLE `q4u_queue` (
   `queue_id` int(12) NOT NULL AUTO_INCREMENT,
-  `hn` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `vn` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `hn` varchar(15) NOT NULL,
+  `vn` varchar(16) NOT NULL,
   `service_point_id` int(3) NOT NULL,
   `priority_id` int(3) DEFAULT NULL,
   `room_id` int(2) DEFAULT NULL COMMENT 'ช่องบริการ',
   `date_serv` date NOT NULL COMMENT 'วันที่รับบริการ',
   `time_serv` time DEFAULT NULL,
   `queue_number` varchar(10) NOT NULL COMMENT 'หมายเลขQ',
-  `queue_running` int(6) DEFAULT '0',
+  `queue_running` int(6) DEFAULT 0,
   `his_queue` varchar(6) DEFAULT NULL COMMENT 'หมายเลขQ(Hosxp)',
   `queue_status_id` int(1) DEFAULT NULL COMMENT 'สถานะQ',
-  `mark_pending` enum('N','Y') CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT 'N' COMMENT 'N=Not pending Y=pending',
-  `remark` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT 'หมายเหตุรับบริการ',
+  `mark_pending` enum('N','Y') DEFAULT 'N' COMMENT 'N=Not pending Y=pending',
+  `remark` text DEFAULT NULL COMMENT 'หมายเหตุรับบริการ',
   `date_create` datetime NOT NULL COMMENT 'เวลาสร้างQ',
-  `date_update` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'เวลาปรับปรุ่งQ',
+  `date_update` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'เวลาปรับปรุ่งQ',
   `pending_to_service_point_id` int(3) DEFAULT NULL COMMENT 'แผนกที่ถูกส่งคิวต่อ',
   `is_interview` char(1) DEFAULT 'N',
   `is_completed` char(1) DEFAULT 'N',
@@ -133,8 +133,23 @@ CREATE TABLE `q4u_queue_detail` (
   `last_queue` int(11) DEFAULT NULL,
   `room_id` int(3) NOT NULL,
   `queue_id` int(11) DEFAULT NULL,
-  `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `update_date` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`service_point_id`,`date_serv`,`room_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Table structure for q4u_queue_group_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `q4u_queue_group_detail`;
+CREATE TABLE `q4u_queue_group_detail` (
+  `service_point_id` int(3) NOT NULL,
+  `date_serv` date NOT NULL,
+  `last_queue` int(11) DEFAULT NULL,
+  `room_id` int(3) NOT NULL,
+  `queue_id` int(11) DEFAULT NULL,
+  `update_date` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `queue_running` int(6) NOT NULL,
+  PRIMARY KEY (`service_point_id`,`date_serv`,`room_id`,`queue_running`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
@@ -144,9 +159,9 @@ DROP TABLE IF EXISTS `q4u_queue_number`;
 CREATE TABLE `q4u_queue_number` (
   `service_point_id` int(3) NOT NULL,
   `date_serv` date NOT NULL,
-  `current_queue` int(11) DEFAULT '0',
-  `update_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`service_point_id`,`date_serv`) USING BTREE
+  `current_queue` int(11) DEFAULT 0,
+  `update_date` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `priority_id` int(3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
@@ -155,8 +170,8 @@ CREATE TABLE `q4u_queue_number` (
 DROP TABLE IF EXISTS `q4u_queue_status`;
 CREATE TABLE `q4u_queue_status` (
   `queue_status_id` int(11) NOT NULL AUTO_INCREMENT,
-  `queue_status_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `queue_status_desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `queue_status_name` varchar(20) DEFAULT NULL,
+  `queue_status_desc` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`queue_status_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
@@ -178,8 +193,8 @@ COMMIT;
 DROP TABLE IF EXISTS `q4u_service_point_prefix`;
 CREATE TABLE `q4u_service_point_prefix` (
   `service_point_id` int(3) NOT NULL COMMENT 'รหัสจุดบริการ',
-  `prefix` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'อักษรย่อ(แต่ละแผนก)',
-  `service_point_status_id` int(3) DEFAULT '1' COMMENT '0=ไม่ใช้งาน 1=ใช้าน ',
+  `prefix` char(1) NOT NULL COMMENT 'อักษรย่อ(แต่ละแผนก)',
+  `service_point_status_id` int(3) DEFAULT 1 COMMENT '0=ไม่ใช้งาน 1=ใช้าน ',
   PRIMARY KEY (`service_point_id`,`prefix`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
@@ -199,16 +214,18 @@ COMMIT;
 DROP TABLE IF EXISTS `q4u_service_points`;
 CREATE TABLE `q4u_service_points` (
   `service_point_id` int(3) NOT NULL AUTO_INCREMENT,
-  `service_point_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'ชื่อจุดบริการ',
-  `service_point_abbr` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'ชื่อย่อจุดบริการ',
-  `local_code` varchar(6) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'รหัสที่ใช้ภายในสถานพยาบาล',
-  `standard43_code` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'รหัส clinic ตามมาตรฐาน 43 แฟ้ม',
+  `service_point_name` varchar(100) DEFAULT NULL COMMENT 'ชื่อจุดบริการ',
+  `service_point_abbr` varchar(50) DEFAULT NULL COMMENT 'ชื่อย่อจุดบริการ',
+  `local_code` varchar(6) DEFAULT NULL COMMENT 'รหัสที่ใช้ภายในสถานพยาบาล',
+  `standard43_code` varchar(5) DEFAULT NULL COMMENT 'รหัส clinic ตามมาตรฐาน 43 แฟ้ม',
   `service_point_type_id` int(3) DEFAULT NULL COMMENT 'รหัสประเภทจุดบริการ',
-  `topic` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'publisher ของ mqtt (กรณี h4udb hdc+topic_h4u)',
+  `topic` varchar(50) DEFAULT NULL COMMENT 'publisher ของ mqtt (กรณี h4udb hdc+topic_h4u)',
   `prefix` char(1) DEFAULT NULL,
   `department_id` int(3) DEFAULT NULL COMMENT 'แผนก',
   `kios` char(1) DEFAULT 'N',
   `use_old_queue` enum('Y','N') DEFAULT 'N',
+  `group_compare` enum('Y','N') DEFAULT 'N' COMMENT 'เชื่อมคิวกลุ่มกับตารางคิว Y=แก้ไขตารางคิว N=ไม่แก้ไขตารางคิว',
+  `priority_queue_running` enum('Y','N') DEFAULT 'N' COMMENT 'ออกเลขคิวตามประเภทผู้ป่วย',
   PRIMARY KEY (`service_point_id`),
   UNIQUE KEY `service_point_un_point_name` (`service_point_name`),
   UNIQUE KEY `idx_topic` (`topic`),
@@ -219,14 +236,14 @@ CREATE TABLE `q4u_service_points` (
 -- Records of q4u_service_points
 -- ----------------------------
 BEGIN;
-INSERT INTO `q4u_service_points` VALUES (1, 'แผนกทันตกรรม', 'DENT', '40100', NULL, NULL, '8525716030', '1', 3, 'Y', 'N');
-INSERT INTO `q4u_service_points` VALUES (2, 'เวชปฏิบัติทั่วไป', 'HHC', '10100', NULL, NULL, '1966378946', '2', 7, 'Y', 'N');
-INSERT INTO `q4u_service_points` VALUES (3, 'กายภาพบำบัด', 'TMM', '041', NULL, NULL, '7442225581', '3', 4, 'Y', 'Y');
-INSERT INTO `q4u_service_points` VALUES (4, 'แพทย์แผนไทย', 'TMT', 'E0100', NULL, NULL, '6945080335', '4', NULL, 'N', 'N');
-INSERT INTO `q4u_service_points` VALUES (6, 'ตรวจโรคทั่วไป', 'OPD', '014', NULL, NULL, '3673212018', 'C', 8, 'Y', 'N');
-INSERT INTO `q4u_service_points` VALUES (7, 'ทันตกรรม', 'DENT', '005', NULL, NULL, '2224971530', '6', 3, 'Y', 'Y');
-INSERT INTO `q4u_service_points` VALUES (8, 'HIMPRO-ตรวจโรค', NULL, 'SCR1', NULL, NULL, '8870167313', 'A', 8, 'N', 'N');
-INSERT INTO `q4u_service_points` VALUES (9, 'ห้อง LAB', NULL, '007', NULL, NULL, '6097994418', 'L', 8, 'Y', 'Y');
+INSERT INTO `q4u_service_points` VALUES (1, 'แผนกทันตกรรม', 'DENT', '40100', NULL, NULL, '8525716030', '1', 3, 'Y', 'N', 'N', 'N');
+INSERT INTO `q4u_service_points` VALUES (2, 'เวชปฏิบัติทั่วไป', 'HHC', '10100', NULL, NULL, '1966378946', '2', 7, 'Y', 'N', 'N', 'N');
+INSERT INTO `q4u_service_points` VALUES (3, 'กายภาพบำบัด', 'TMM', '041', NULL, NULL, '7442225581', '3', 4, 'Y', 'Y', 'N', 'N');
+INSERT INTO `q4u_service_points` VALUES (4, 'แพทย์แผนไทย', 'TMT', 'E0100', NULL, NULL, '6945080335', '4', NULL, 'N', 'N', 'N', 'N');
+INSERT INTO `q4u_service_points` VALUES (6, 'ตรวจโรคทั่วไป', 'OPD', '014', NULL, NULL, '1177083354', 'C', 8, 'Y', 'N', 'N', 'Y');
+INSERT INTO `q4u_service_points` VALUES (7, 'ทันตกรรม', 'DENT', '005', NULL, NULL, '2224971530', '6', 3, 'Y', 'Y', 'N', 'N');
+INSERT INTO `q4u_service_points` VALUES (8, 'HIMPRO-ตรวจโรค', NULL, 'SCR1', NULL, NULL, '8870167313', 'A', 8, 'N', 'N', 'N', 'N');
+INSERT INTO `q4u_service_points` VALUES (9, 'ห้อง LAB', NULL, '007', NULL, NULL, '6097994418', 'L', 8, 'Y', 'Y', 'N', 'N');
 COMMIT;
 
 -- ----------------------------
@@ -236,7 +253,7 @@ DROP TABLE IF EXISTS `q4u_service_rooms`;
 CREATE TABLE `q4u_service_rooms` (
   `service_point_id` int(3) NOT NULL COMMENT 'รหัสจุดบริการ',
   `room_number` int(2) NOT NULL COMMENT 'หมายเลขห้องตรวจ',
-  `room_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'ชื่อห้องตรวจ',
+  `room_name` varchar(50) DEFAULT NULL COMMENT 'ชื่อห้องตรวจ',
   `room_id` int(6) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`service_point_id`,`room_number`),
   UNIQUE KEY `service_rooms_un` (`room_id`)
@@ -270,8 +287,8 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `q4u_system`;
 CREATE TABLE `q4u_system` (
-  `hoscode` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `hosname` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `hoscode` varchar(50) NOT NULL,
+  `hosname` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`hoscode`),
   UNIQUE KEY `idx_hoscode` (`hoscode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -288,10 +305,17 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `q4u_tokens`;
 CREATE TABLE `q4u_tokens` (
-  `token` text CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `token` text DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `expired_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of q4u_tokens
+-- ----------------------------
+BEGIN;
+INSERT INTO `q4u_tokens` VALUES ('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZSI6Img0dSIsImRlc2NyaXB0aW9uIjoiZm9yIGFjY2VzcyBRNFUgYXBpIiwiUVVFVUVfQ0VOVEVSX1RPUElDIjoicXVldWUvY2VudGVyIiwiU0VSVklDRV9QT0lOVF9UT1BJQyI6InF1ZXVlL3NlcnZpY2UtcG9pbnQiLCJERVBBUlRNRU5UX1RPUElDIjoicXVldWUvZGVwYXJ0bWVudCIsIkdST1VQX1RPUElDIjoicXVldWUvZ3JvdXAiLCJOT1RJRllfVVNFUiI6InE0dSIsIk5PVElGWV9QQVNTV09SRCI6IiMjcTR1IyMiLCJOT1RJRllfU0VSVkVSIjoiMTI3LjAuMC4xIiwiTk9USUZZX1BPUlQiOiI4ODg4IiwiaWF0IjoxNTUxNzU5NTkxLCJleHAiOjE1ODMzMTcxOTF9.y9i0oK2J3x_bxR77ONF9vH1cO_dHJ1Z5nqKLTq23wfQ', '2019-03-05 11:19:51', '2020-03-05 11:19:51');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for q4u_user_roles
@@ -300,7 +324,7 @@ DROP TABLE IF EXISTS `q4u_user_roles`;
 CREATE TABLE `q4u_user_roles` (
   `user_id` int(11) NOT NULL,
   `service_point_id` int(4) NOT NULL,
-  `is_active` int(1) DEFAULT '1' COMMENT '0=ยกเลิก 1=ใช้งาน',
+  `is_active` int(1) DEFAULT 1 COMMENT '0=ยกเลิก 1=ใช้งาน',
   PRIMARY KEY (`user_id`,`service_point_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
 
@@ -340,9 +364,9 @@ COMMIT;
 DROP TABLE IF EXISTS `q4u_users`;
 CREATE TABLE `q4u_users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `fullname` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `fullname` varchar(100) DEFAULT NULL,
   `username` varchar(100) DEFAULT NULL,
-  `password` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `password` varchar(256) DEFAULT NULL,
   `is_active` char(1) DEFAULT 'Y',
   `user_type` enum('ADMIN','MEMBER') DEFAULT NULL,
   PRIMARY KEY (`user_id`),
