@@ -15,7 +15,7 @@ services:
         ipv4_address: 192.168.88.11
 
   mysql:
-    image: "mysql/mysql-server"
+    image: "mysql/mysql-server:8.0.13"
     container_name: "queue-mysql"
     ports:
       - 3306:3306
@@ -25,8 +25,8 @@ services:
       MYSQL_ROOT_HOST: "%"
     volumes:
       - ./mysql:/var/lib/mysql
-    command: --bind-address=0.0.0.0
-      --lower_case_table_names=2
+    command: 
+      --bind-address=0.0.0.0
       --sql-mode="STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
       --skip-name-resolve
       --default-authentication-plugin=mysql_native_password

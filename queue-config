@@ -26,6 +26,8 @@ Q4U_NOTIFY_URL=http://mqtt.h4u.moph.go.th/v1/queue/update
 
 ###############################################################
 
+USE_HIS_QUEUE=N
+
 # HIS_TYPE: hi, hosxp, universal, ezhosp
 HIS_TYPE=universal
 
