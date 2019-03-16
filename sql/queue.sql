@@ -11,7 +11,7 @@
  Target Server Version : 100313
  File Encoding         : 65001
 
- Date: 12/03/2019 10:11:03
+ Date: 16/03/2019 21:13:20
 */
 
 SET NAMES utf8mb4;
@@ -146,10 +146,10 @@ CREATE TABLE `q4u_queue_group_detail` (
   `date_serv` date NOT NULL,
   `last_queue` int(11) DEFAULT NULL,
   `room_id` int(3) NOT NULL,
-  `queue_id` int(11) DEFAULT NULL,
+  `queue_id` int(11) NOT NULL,
   `update_date` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `queue_running` int(6) NOT NULL,
-  PRIMARY KEY (`service_point_id`,`date_serv`,`room_id`,`queue_running`) USING BTREE
+  PRIMARY KEY (`service_point_id`,`date_serv`,`room_id`,`queue_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
@@ -238,7 +238,7 @@ CREATE TABLE `q4u_service_points` (
 BEGIN;
 INSERT INTO `q4u_service_points` VALUES (1, 'แผนกทันตกรรม', 'DENT', '40100', NULL, NULL, '8525716030', '1', 3, 'Y', 'N', 'N', 'N');
 INSERT INTO `q4u_service_points` VALUES (2, 'เวชปฏิบัติทั่วไป', 'HHC', '10100', NULL, NULL, '1966378946', '2', 7, 'Y', 'N', 'N', 'N');
-INSERT INTO `q4u_service_points` VALUES (3, 'กายภาพบำบัด', 'TMM', '041', NULL, NULL, '7442225581', '3', 4, 'Y', 'Y', 'N', 'N');
+INSERT INTO `q4u_service_points` VALUES (3, 'กายภาพบำบัด', 'TMM', '041', NULL, NULL, '8526192671', '3', 4, 'Y', 'Y', 'N', 'Y');
 INSERT INTO `q4u_service_points` VALUES (4, 'แพทย์แผนไทย', 'TMT', 'E0100', NULL, NULL, '6945080335', '4', NULL, 'N', 'N', 'N', 'N');
 INSERT INTO `q4u_service_points` VALUES (6, 'ตรวจโรคทั่วไป', 'OPD', '014', NULL, NULL, '1177083354', 'C', 8, 'Y', 'N', 'N', 'Y');
 INSERT INTO `q4u_service_points` VALUES (7, 'ทันตกรรม', 'DENT', '005', NULL, NULL, '2224971530', '6', 3, 'Y', 'Y', 'N', 'N');
@@ -309,13 +309,6 @@ CREATE TABLE `q4u_tokens` (
   `created_date` datetime DEFAULT NULL,
   `expired_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of q4u_tokens
--- ----------------------------
-BEGIN;
-INSERT INTO `q4u_tokens` VALUES ('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZSI6Img0dSIsImRlc2NyaXB0aW9uIjoiZm9yIGFjY2VzcyBRNFUgYXBpIiwiUVVFVUVfQ0VOVEVSX1RPUElDIjoicXVldWUvY2VudGVyIiwiU0VSVklDRV9QT0lOVF9UT1BJQyI6InF1ZXVlL3NlcnZpY2UtcG9pbnQiLCJERVBBUlRNRU5UX1RPUElDIjoicXVldWUvZGVwYXJ0bWVudCIsIkdST1VQX1RPUElDIjoicXVldWUvZ3JvdXAiLCJOT1RJRllfVVNFUiI6InE0dSIsIk5PVElGWV9QQVNTV09SRCI6IiMjcTR1IyMiLCJOT1RJRllfU0VSVkVSIjoiMTI3LjAuMC4xIiwiTk9USUZZX1BPUlQiOiI4ODg4IiwiaWF0IjoxNTUxNzU5NTkxLCJleHAiOjE1ODMzMTcxOTF9.y9i0oK2J3x_bxR77ONF9vH1cO_dHJ1Z5nqKLTq23wfQ', '2019-03-05 11:19:51', '2020-03-05 11:19:51');
-COMMIT;
 
 -- ----------------------------
 -- Table structure for q4u_user_roles
