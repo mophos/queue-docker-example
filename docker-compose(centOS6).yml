@@ -1,0 +1,41 @@
+queue:
+  image: "mophos/queue"
+  container_name: "queue"
+  ports:
+    - 80:80
+    - 8888:8888
+  volumes:
+    - ./queue-config:/home/queue/queue-api/config
+    - ./mqtt-config:/home/queue/queue-mqtt/config
+  restart: always
+  networks:
+    queue-network:
+      ipv4_address: 192.168.88.11
+mysql:
+  image: "mysql/mysql-server:8.0.13"
+  container_name: "queue-mysql"
+  ports:
+    - 3308:3306
+  environment:
+    MYSQL_DATABASE: "root"
+    MYSQL_ROOT_PASSWORD: "##q4u##"
+    MYSQL_ROOT_HOST: "%"
+  volumes:
+    - ./mysql:/var/lib/mysql
+  command:
+    --bind-address=0.0.0.0
+    --sql-mode="STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
+    --skip-name-resolve
+    --default-authentication-plugin=mysql_native_password
+    --character-set-server=utf8
+    --collation-server=utf8_general_ci
+  restart: always
+  networks:
+    queue-network:
+      ipv4_address: 192.168.88.10
+networks:
+queue-network:
+  driver: bridge
+  ipam:
+    config:
+      - subnet: 192.168.88.0/24
