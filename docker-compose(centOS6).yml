@@ -4,6 +4,7 @@ queue:
   ports:
     - 80:80
     - 8888:8888
+    - 1883:1883
   volumes:
     - ./queue-config:/home/queue/queue-api/config
     - ./mqtt-config:/home/queue/queue-mqtt/config
