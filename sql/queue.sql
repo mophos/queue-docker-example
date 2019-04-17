@@ -11,7 +11,7 @@
  Target Server Version : 100313
  File Encoding         : 65001
 
- Date: 16/03/2019 21:13:20
+ Date: 17/04/2019 21:17:00
 */
 
 SET NAMES utf8mb4;
@@ -226,6 +226,8 @@ CREATE TABLE `q4u_service_points` (
   `use_old_queue` enum('Y','N') DEFAULT 'N',
   `group_compare` enum('Y','N') DEFAULT 'N' COMMENT 'เชื่อมคิวกลุ่มกับตารางคิว Y=แก้ไขตารางคิว N=ไม่แก้ไขตารางคิว',
   `priority_queue_running` enum('Y','N') DEFAULT 'N' COMMENT 'ออกเลขคิวตามประเภทผู้ป่วย',
+  `sound_id` int(11) DEFAULT NULL COMMENT 'รหัสเสียงเรียก',
+  `sound_speed` double DEFAULT 1 COMMENT 'ความเร็วเสียง',
   PRIMARY KEY (`service_point_id`),
   UNIQUE KEY `service_point_un_point_name` (`service_point_name`),
   UNIQUE KEY `idx_topic` (`topic`),
@@ -236,14 +238,13 @@ CREATE TABLE `q4u_service_points` (
 -- Records of q4u_service_points
 -- ----------------------------
 BEGIN;
-INSERT INTO `q4u_service_points` VALUES (1, 'แผนกทันตกรรม', 'DENT', '40100', NULL, NULL, '8525716030', '1', 3, 'Y', 'N', 'N', 'N');
-INSERT INTO `q4u_service_points` VALUES (2, 'เวชปฏิบัติทั่วไป', 'HHC', '10100', NULL, NULL, '1966378946', '2', 7, 'Y', 'N', 'N', 'N');
-INSERT INTO `q4u_service_points` VALUES (3, 'กายภาพบำบัด', 'TMM', '041', NULL, NULL, '8526192671', '3', 4, 'Y', 'Y', 'N', 'Y');
-INSERT INTO `q4u_service_points` VALUES (4, 'แพทย์แผนไทย', 'TMT', 'E0100', NULL, NULL, '6945080335', '4', NULL, 'N', 'N', 'N', 'N');
-INSERT INTO `q4u_service_points` VALUES (6, 'ตรวจโรคทั่วไป', 'OPD', '014', NULL, NULL, '1177083354', 'C', 8, 'Y', 'N', 'N', 'Y');
-INSERT INTO `q4u_service_points` VALUES (7, 'ทันตกรรม', 'DENT', '005', NULL, NULL, '2224971530', '6', 3, 'Y', 'Y', 'N', 'N');
-INSERT INTO `q4u_service_points` VALUES (8, 'HIMPRO-ตรวจโรค', NULL, 'SCR1', NULL, NULL, '8870167313', 'A', 8, 'N', 'N', 'N', 'N');
-INSERT INTO `q4u_service_points` VALUES (9, 'ห้อง LAB', NULL, '007', NULL, NULL, '6097994418', 'L', 8, 'Y', 'Y', 'N', 'N');
+INSERT INTO `q4u_service_points` VALUES (1, 'แผนกทันตกรรม', 'DENT', '40100', NULL, NULL, '8525716030', '1', 3, 'Y', 'N', 'N', 'N', NULL, NULL);
+INSERT INTO `q4u_service_points` VALUES (2, 'เวชปฏิบัติทั่วไป', 'HHC', '10100', NULL, NULL, '1966378946', '2', 7, 'Y', 'N', 'N', 'N', NULL, NULL);
+INSERT INTO `q4u_service_points` VALUES (3, 'กายภาพบำบัด', 'TMM', '041', NULL, NULL, '1377780021', 'E', 4, 'Y', 'Y', 'N', 'Y', NULL, NULL);
+INSERT INTO `q4u_service_points` VALUES (4, 'แพทย์แผนไทย', 'TMT', 'E0100', NULL, NULL, '6945080335', '4', NULL, 'N', 'N', 'N', 'N', NULL, NULL);
+INSERT INTO `q4u_service_points` VALUES (6, 'ตรวจโรคทั่วไป', 'OPD', '014', NULL, NULL, '5229659326', 'M', 8, 'Y', 'N', 'N', 'Y', 1, NULL);
+INSERT INTO `q4u_service_points` VALUES (7, 'ทันตกรรม', 'DENT', '005', NULL, NULL, '5262672696', 'D', 3, 'Y', 'Y', 'N', 'N', NULL, NULL);
+INSERT INTO `q4u_service_points` VALUES (9, 'ห้อง LAB', NULL, '007', NULL, NULL, '6097994418', 'L', 8, 'Y', 'Y', 'N', 'N', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -280,6 +281,34 @@ INSERT INTO `q4u_service_rooms` VALUES (6, 3, 'ห้องตรวจ 3', 19);
 INSERT INTO `q4u_service_rooms` VALUES (7, 1, 'ทันตกรรมทั่วไป', 20);
 INSERT INTO `q4u_service_rooms` VALUES (7, 2, 'ทันกรรมนอกเวลา', 21);
 INSERT INTO `q4u_service_rooms` VALUES (8, 2, 'xxx', 22);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for q4u_sounds
+-- ----------------------------
+DROP TABLE IF EXISTS `q4u_sounds`;
+CREATE TABLE `q4u_sounds` (
+  `sound_id` int(11) NOT NULL AUTO_INCREMENT,
+  `sound_name` varchar(255) DEFAULT NULL,
+  `sound_file` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`sound_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of q4u_sounds
+-- ----------------------------
+BEGIN;
+INSERT INTO `q4u_sounds` VALUES (1, ' ที่ช่องบริการ', 'channel.mp3');
+INSERT INTO `q4u_sounds` VALUES (2, 'ที่โต๊ะคัดกรอง', 'screen-table.mp3');
+INSERT INTO `q4u_sounds` VALUES (3, 'ที่จุดคัดกรอง', 'screen-point.mp3');
+INSERT INTO `q4u_sounds` VALUES (4, 'ที่จุดซักประวัติ', 'interview-point.mp3');
+INSERT INTO `q4u_sounds` VALUES (5, 'ที่โต๊ะซักประวัติ', 'interview-table.mp3');
+INSERT INTO `q4u_sounds` VALUES (6, 'ที่ช่องการเงิน', 'cashier.mp3');
+INSERT INTO `q4u_sounds` VALUES (7, 'ที่ช่องจ่ายเงิน', 'pay-cashier.mp3');
+INSERT INTO `q4u_sounds` VALUES (8, 'ที่ห้องจ่ายยา', 'pay-drug.mp3');
+INSERT INTO `q4u_sounds` VALUES (9, 'ที่ห้องรับยา', 'receive-drug.mp3');
+INSERT INTO `q4u_sounds` VALUES (10, 'ที่โต๊ะ', 'table.mp3');
+INSERT INTO `q4u_sounds` VALUES (11, 'ที่เคาเตอร์', 'couter.mp3');
 COMMIT;
 
 -- ----------------------------
