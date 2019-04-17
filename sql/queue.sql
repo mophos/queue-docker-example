@@ -309,6 +309,7 @@ INSERT INTO `q4u_sounds` VALUES (8, 'ที่ห้องจ่ายยา', '
 INSERT INTO `q4u_sounds` VALUES (9, 'ที่ห้องรับยา', 'receive-drug.mp3');
 INSERT INTO `q4u_sounds` VALUES (10, 'ที่โต๊ะ', 'table.mp3');
 INSERT INTO `q4u_sounds` VALUES (11, 'ที่เคาเตอร์', 'couter.mp3');
+INSERT INTO `q4u_sounds` VALUES (12, 'ที่ห้องตรวจ', 'doctor_room.mp3');
 COMMIT;
 
 -- ----------------------------
