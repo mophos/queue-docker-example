@@ -20,6 +20,9 @@ MAX_CONNECTION_PER_MINUTE=50000
 ENABLE_Q4U=Y
 ZERO_PADDING=Y
 
+# Y = อ่านเลขคิวที่ละตัว (11 อ่านว่า หนึ่งหนึ่ง), N = อ่านเลขคิวเป็นคำพูด (11 อ่านว่า สิบเอ็ด)
+SPEAK_SINGLE=N
+
 Q4U_NOTIFY_TOPIC=xx
 Q4U_NOTIFY_TOKEN=xx
 Q4U_NOTIFY_URL=http://mqtt.h4u.moph.go.th/v1/queue/update
