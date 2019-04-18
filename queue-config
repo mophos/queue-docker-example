@@ -21,7 +21,7 @@ ENABLE_Q4U=Y
 ZERO_PADDING=Y
 
 # Y = อ่านเลขคิวที่ละตัว (11 อ่านว่า หนึ่งหนึ่ง), N = อ่านเลขคิวเป็นคำพูด (11 อ่านว่า สิบเอ็ด)
-SPEAK_SINGLE=N
+SPEAK_SINGLE=Y
 
 Q4U_NOTIFY_TOPIC=xx
 Q4U_NOTIFY_TOKEN=xx
