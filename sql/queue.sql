@@ -404,7 +404,7 @@ CREATE TABLE `q4u_users` (
 BEGIN;
 INSERT INTO `q4u_users` VALUES (1, 'สถิตย์ เรียนพิศ', 'satit', 'e10adc3949ba59abbe56e057f20f883e', 'Y', 'ADMIN');
 INSERT INTO `q4u_users` VALUES (2, 'พิชญาภา เรียนพิศ', 'nurse', 'e10adc3949ba59abbe56e057f20f883e', 'Y', 'MEMBER');
-INSERT INTO `q4u_users` VALUES (2, 'kiosk', 'kiosk', 'e10adc3949ba59abbe56e057f20f883e', 'Y', 'KIOSK');
+INSERT INTO `q4u_users` VALUES (3, 'kiosk', 'kiosk', 'e10adc3949ba59abbe56e057f20f883e', 'Y', 'KIOSK');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
