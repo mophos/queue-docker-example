@@ -1,18 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : MMIS 203.157.103.125
- Source Server Type    : MySQL
- Source Server Version : 80011
- Source Host           : 203.157.103.125:3306
- Source Schema         : universal
-
- Target Server Type    : MySQL
- Target Server Version : 80011
- File Encoding         : 65001
-
- Date: 11/02/2019 09:44:21
-*/
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
