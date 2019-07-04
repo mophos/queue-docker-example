@@ -63,9 +63,10 @@ CREATE TABLE `q4u_person` (
 DROP TABLE IF EXISTS `q4u_priorities`;
 CREATE TABLE `q4u_priorities` (
   `priority_id` int(3) NOT NULL AUTO_INCREMENT,
-  `priority_name` varchar(50) DEFAULT NULL,
-  `priority_prefix` char(1) DEFAULT NULL,
-  `prority_color` varchar(100) DEFAULT NULL,
+  `priority_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `priority_prefix` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `priority_color` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `priority_order` int(11) DEFAULT '1',
   PRIMARY KEY (`priority_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
@@ -214,20 +215,20 @@ COMMIT;
 DROP TABLE IF EXISTS `q4u_service_points`;
 CREATE TABLE `q4u_service_points` (
   `service_point_id` int(3) NOT NULL AUTO_INCREMENT,
-  `service_point_name` varchar(100) DEFAULT NULL COMMENT 'ชื่อจุดบริการ',
-  `service_point_abbr` varchar(50) DEFAULT NULL COMMENT 'ชื่อย่อจุดบริการ',
-  `local_code` varchar(6) DEFAULT NULL COMMENT 'รหัสที่ใช้ภายในสถานพยาบาล',
-  `standard43_code` varchar(5) DEFAULT NULL COMMENT 'รหัส clinic ตามมาตรฐาน 43 แฟ้ม',
+  `service_point_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'ชื่อจุดบริการ',
+  `service_point_abbr` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'ชื่อย่อจุดบริการ',
+  `local_code` varchar(6) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'รหัสที่ใช้ภายในสถานพยาบาล',
+  `standard43_code` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'รหัส clinic ตามมาตรฐาน 43 แฟ้ม',
   `service_point_type_id` int(3) DEFAULT NULL COMMENT 'รหัสประเภทจุดบริการ',
-  `topic` varchar(50) DEFAULT NULL COMMENT 'publisher ของ mqtt (กรณี h4udb hdc+topic_h4u)',
+  `topic` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'publisher ของ mqtt (กรณี h4udb hdc+topic_h4u)',
   `prefix` char(1) DEFAULT NULL,
   `department_id` int(3) DEFAULT NULL COMMENT 'แผนก',
   `kios` char(1) DEFAULT 'N',
   `use_old_queue` enum('Y','N') DEFAULT 'N',
   `group_compare` enum('Y','N') DEFAULT 'N' COMMENT 'เชื่อมคิวกลุ่มกับตารางคิว Y=แก้ไขตารางคิว N=ไม่แก้ไขตารางคิว',
-  `priority_queue_running` enum('Y','N') DEFAULT 'N' COMMENT 'ออกเลขคิวตามประเภทผู้ป่วย',
+  `priority_queue_running` enum('Y','N') CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT 'N' COMMENT 'ออกเลขคิวตามประเภทผู้ป่วย',
   `sound_id` int(11) DEFAULT NULL COMMENT 'รหัสเสียงเรียก',
-  `sound_speed` double DEFAULT 1 COMMENT 'ความเร็วเสียง',
+  `sound_speed` decimal(3,2) DEFAULT NULL COMMENT 'ความเร็วเสียงเรียก',
   PRIMARY KEY (`service_point_id`),
   UNIQUE KEY `service_point_un_point_name` (`service_point_name`),
   UNIQUE KEY `idx_topic` (`topic`),
@@ -254,9 +255,10 @@ DROP TABLE IF EXISTS `q4u_service_rooms`;
 CREATE TABLE `q4u_service_rooms` (
   `service_point_id` int(3) NOT NULL COMMENT 'รหัสจุดบริการ',
   `room_number` int(2) NOT NULL COMMENT 'หมายเลขห้องตรวจ',
-  `room_name` varchar(50) DEFAULT NULL COMMENT 'ชื่อห้องตรวจ',
+  `room_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'ชื่อห้องตรวจ',
   `room_id` int(6) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`service_point_id`,`room_number`),
+  `sound_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`room_id`) USING BTREE,
   UNIQUE KEY `service_rooms_un` (`room_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
