@@ -54,7 +54,8 @@ CREATE TABLE `q4u_person` (
   `remark` text DEFAULT NULL,
   `update_date` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `sex` char(1) DEFAULT NULL,
-  PRIMARY KEY (`hn`) USING BTREE
+  o
+ MARY KEY (`hn`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
@@ -74,14 +75,14 @@ CREATE TABLE `q4u_priorities` (
 -- Records of q4u_priorities
 -- ----------------------------
 BEGIN;
-INSERT INTO `q4u_priorities` VALUES (1, 'ปกติ', '1', NULL);
-INSERT INTO `q4u_priorities` VALUES (2, 'URGENT', 'O', NULL);
-INSERT INTO `q4u_priorities` VALUES (3, 'EMERGENCY', '3', NULL);
-INSERT INTO `q4u_priorities` VALUES (4, 'VIP', '4', NULL);
-INSERT INTO `q4u_priorities` VALUES (5, '70 ปีขึ้นไป', '5', NULL);
-INSERT INTO `q4u_priorities` VALUES (6, 'ผู้นำศาสนา พระ', '6', NULL);
-INSERT INTO `q4u_priorities` VALUES (7, 'รถนั่ง-รถนอน', '7', NULL);
-INSERT INTO `q4u_priorities` VALUES (8, 'เจ้าหน้าที่', '8', NULL);
+INSERT INTO `q4u_priorities` VALUES (1, 'ปกติ', '1', NULL,1);
+INSERT INTO `q4u_priorities` VALUES (2, 'URGENT', 'O', NULL,2);
+INSERT INTO `q4u_priorities` VALUES (3, 'EMERGENCY', '3', NULL,3);
+INSERT INTO `q4u_priorities` VALUES (4, 'VIP', '4', NULL,4);
+INSERT INTO `q4u_priorities` VALUES (5, '70 ปีขึ้นไป', '5', NULL,5);
+INSERT INTO `q4u_priorities` VALUES (6, 'ผู้นำศาสนา พระ', '6', NULL,6);
+INSERT INTO `q4u_priorities` VALUES (7, 'รถนั่ง-รถนอน', '7', NULL,7);
+INSERT INTO `q4u_priorities` VALUES (8, 'เจ้าหน้าที่', '8', NULL,8);
 COMMIT;
 
 -- ----------------------------
@@ -266,23 +267,23 @@ CREATE TABLE `q4u_service_rooms` (
 -- Records of q4u_service_rooms
 -- ----------------------------
 BEGIN;
-INSERT INTO `q4u_service_rooms` VALUES (1, 1, 'ทันตกรรมพิเศษ 1', 2);
-INSERT INTO `q4u_service_rooms` VALUES (1, 2, 'ทันตกรรมพิเศษ 2', 4);
-INSERT INTO `q4u_service_rooms` VALUES (1, 3, 'ทันตกรรมนอกเวลา', 5);
-INSERT INTO `q4u_service_rooms` VALUES (2, 1, 'ห้องตรวจเด็ก 1', 6);
-INSERT INTO `q4u_service_rooms` VALUES (2, 2, 'ห้องตรวจเด็ก 2', 7);
-INSERT INTO `q4u_service_rooms` VALUES (2, 3, 'ห้องตรวจเด็ก 3', 8);
-INSERT INTO `q4u_service_rooms` VALUES (3, 1, 'ห้องตรวจ 1', 16);
-INSERT INTO `q4u_service_rooms` VALUES (3, 2, 'ห้องตรวจ 2', 17);
-INSERT INTO `q4u_service_rooms` VALUES (4, 1, 'แผนไทย 1', 11);
-INSERT INTO `q4u_service_rooms` VALUES (4, 2, 'แผนไทยนอกเวลา', 15);
-INSERT INTO `q4u_service_rooms` VALUES (5, 1, 'ห้องตรวจโรค 1 ', 13);
-INSERT INTO `q4u_service_rooms` VALUES (6, 1, 'ห้องตรวจ 1', 18);
-INSERT INTO `q4u_service_rooms` VALUES (6, 2, 'ห้องตรวจโรค 2', 14);
-INSERT INTO `q4u_service_rooms` VALUES (6, 3, 'ห้องตรวจ 3', 19);
-INSERT INTO `q4u_service_rooms` VALUES (7, 1, 'ทันตกรรมทั่วไป', 20);
-INSERT INTO `q4u_service_rooms` VALUES (7, 2, 'ทันกรรมนอกเวลา', 21);
-INSERT INTO `q4u_service_rooms` VALUES (8, 2, 'xxx', 22);
+INSERT INTO `q4u_service_rooms` VALUES (1, 1, 'ทันตกรรมพิเศษ 1', 2,NULL);
+INSERT INTO `q4u_service_rooms` VALUES (1, 2, 'ทันตกรรมพิเศษ 2', 4,NULL);
+INSERT INTO `q4u_service_rooms` VALUES (1, 3, 'ทันตกรรมนอกเวลา', 5,NULL);
+INSERT INTO `q4u_service_rooms` VALUES (2, 1, 'ห้องตรวจเด็ก 1', 6,NULL);
+INSERT INTO `q4u_service_rooms` VALUES (2, 2, 'ห้องตรวจเด็ก 2', 7,NULL);
+INSERT INTO `q4u_service_rooms` VALUES (2, 3, 'ห้องตรวจเด็ก 3', 8,NULL);
+INSERT INTO `q4u_service_rooms` VALUES (3, 1, 'ห้องตรวจ 1', 16,NULL);
+INSERT INTO `q4u_service_rooms` VALUES (3, 2, 'ห้องตรวจ 2', 17,NULL);
+INSERT INTO `q4u_service_rooms` VALUES (4, 1, 'แผนไทย 1', 11,NULL);
+INSERT INTO `q4u_service_rooms` VALUES (4, 2, 'แผนไทยนอกเวลา', 15,NULL);
+INSERT INTO `q4u_service_rooms` VALUES (5, 1, 'ห้องตรวจโรค 1 ', 13,NULL);
+INSERT INTO `q4u_service_rooms` VALUES (6, 1, 'ห้องตรวจ 1', 18,NULL);
+INSERT INTO `q4u_service_rooms` VALUES (6, 2, 'ห้องตรวจโรค 2', 14,NULL);
+INSERT INTO `q4u_service_rooms` VALUES (6, 3, 'ห้องตรวจ 3', 19,NULL);
+INSERT INTO `q4u_service_rooms` VALUES (7, 1, 'ทันตกรรมทั่วไป', 20,NULL);
+INSERT INTO `q4u_service_rooms` VALUES (7, 2, 'ทันกรรมนอกเวลา', 21,NULL);
+INSERT INTO `q4u_service_rooms` VALUES (8, 2, 'xxx', 22,NULL);
 COMMIT;
 
 -- ----------------------------
