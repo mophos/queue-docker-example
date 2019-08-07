@@ -54,8 +54,7 @@ CREATE TABLE `q4u_person` (
   `remark` text DEFAULT NULL,
   `update_date` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `sex` char(1) DEFAULT NULL,
-  o
- MARY KEY (`hn`) USING BTREE
+  PRIMARY KEY (`hn`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
