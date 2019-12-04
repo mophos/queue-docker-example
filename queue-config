@@ -1,4 +1,4 @@
-DB_HOST=192.168.88.10
+DB_HOST=mysqldb
 DB_PORT=3306
 DB_NAME=queue
 DB_USER=root

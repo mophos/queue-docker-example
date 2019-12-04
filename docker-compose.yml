@@ -13,7 +13,6 @@ services:
     restart: always
     networks:
       queue-network:
-        ipv4_address: 192.168.88.11
 
   mysql:
     image: "mysql/mysql-server:8.0.13"
@@ -29,7 +28,6 @@ services:
     command: 
       --bind-address=0.0.0.0
       --sql-mode="STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
-      --skip-name-resolve
       --default-authentication-plugin=mysql_native_password
       --character-set-server=utf8
       --collation-server=utf8_general_ci
@@ -37,10 +35,7 @@ services:
     restart: always
     networks:
       queue-network:
-        ipv4_address: 192.168.88.10
+        aliases: 
+          - mysqldb
 networks:
   queue-network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 192.168.88.0/24
