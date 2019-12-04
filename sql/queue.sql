@@ -18,6 +18,12 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
+-- Create Database if not exist
+-- ----------------------------
+CREATE DATABASE IF NOT EXISTS `queue`;
+USE `queue`;
+
+-- ----------------------------
 -- Table structure for q4u_departments
 -- ----------------------------
 DROP TABLE IF EXISTS `q4u_departments`;
